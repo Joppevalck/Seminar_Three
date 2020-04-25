@@ -40,7 +40,7 @@ class SaleInformation {
     }
 
     private void initMoneyVariables(){
-        this.runningTotal = this.amountPaid = this.change = 0;
+        this.runningTotal = this.amountPaid = this.change = (int)(this.VAT = 0);
     }
 
 }
