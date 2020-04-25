@@ -25,7 +25,8 @@ public class Controller {
         this.exSysCreator = exSysCreator;
 
         this.saleLog = new SaleLog();
-        this.register = new Register();
+    //    this.register = new Register();
+
     }
 
     public void saleStart(){
