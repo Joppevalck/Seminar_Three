@@ -10,9 +10,7 @@ import se.kth.IV1350.seminarThree.model.SaleLog;
 public class Controller {
 
     //  These attributes belong in the integration Layer
-    private ExternalAccountingSystem exAccSys;
-    private ExternalInventorySystem exInvSys;
-    private Printer printer;
+    private ExternalSystemCreator exSysCreator;
 
     //  These attributes belong in the model Layer
     private SaleLog saleLog;
@@ -24,16 +22,14 @@ public class Controller {
      * @param exSysCreator Contains all external systems that Controller needs.
      */
     public Controller(ExternalSystemCreator exSysCreator){
-        setExternalSystems(exSysCreator);
+        this.exSysCreator = exSysCreator;
 
         this.saleLog = new SaleLog();
         this.register = new Register();
     }
 
-    private void setExternalSystems(ExternalSystemCreator exSysCreator){
-        this.exAccSys = exSysCreator.getExAccSys();
-        this.exInvSys = exSysCreator.getExInvSys();
-        this.printer = exSysCreator.getPrinter();
+    public void saleStart(){
+
     }
 
 }
