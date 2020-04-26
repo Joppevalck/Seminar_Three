@@ -17,6 +17,7 @@ public class Main {
     public static void main(String[] args){
         ExternalSystemCreator exSysCreator = new ExternalSystemCreator();
         Controller ctrl = new Controller(exSysCreator);
-        new View(ctrl);
+        View view = new View(ctrl);
+        view.runFakeExecution();
     }
 }

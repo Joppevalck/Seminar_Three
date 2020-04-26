@@ -7,10 +7,11 @@ import java.util.Map;
 /**
  * SaleInformation contains all Information of a sale.
  */
-class SaleInformation {
+public class SaleInformation {
     private LocalTime saleTime;
     private StoreLocation storeLocation;
     private Map itemInventory;
+    private ItemAndQuantity lastItemAdded;
     private double VAT;
     private int runningTotal;
     private int amountPaid;
@@ -25,6 +26,17 @@ class SaleInformation {
         setStoreLocationOfSale("nameOfStore", "addressOfStore" );
         createItemInventory();
         initMoneyVariables();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < itemInventory.size(); i++){
+
+        }
+        itemInventory.
+
+        return String.format();
     }
 
     private void setTimeOfSale(){

@@ -12,4 +12,6 @@ public class Sale {
         this.saleInfo = new SaleInformation();
         this.saleActive = true;
     }
+
+    public SaleInformationDTO
 }
