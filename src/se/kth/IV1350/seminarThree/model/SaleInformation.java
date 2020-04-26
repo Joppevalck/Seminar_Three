@@ -28,15 +28,16 @@ public class SaleInformation {
         initMoneyVariables();
     }
 
+    /**
+     * Prints the running total and last item's that was registered description and price.
+     *
+     * @return String formated to print the running total and the item's description and price.
+     */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < itemInventory.size(); i++){
-
-        }
-        itemInventory.
-
-        return String.format();
+        return lastItemAdded == null ? "" : "Total price:" + runningTotal + "\n" + lastItemAdded.getQuantity() + "*" +
+                lastItemAdded.getItem().getItemDescription() + "\t" + lastItemAdded.getQuantity() + "*" +
+                lastItemAdded.getItem().getPrice();
     }
 
     private void setTimeOfSale(){

@@ -10,4 +10,12 @@ public class ItemAndQuantity {
         this.item = item;
         this.quantity = quantity;
     }
+
+    public ItemDTO getItem() {
+        return item;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }
