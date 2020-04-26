@@ -1,5 +1,8 @@
 package se.kth.IV1350.seminarThree.controller;
 
+import se.kth.IV1350.seminarThree.DTOPackage.ItemDTO;
+import se.kth.IV1350.seminarThree.DTOPackage.SaleInformationDTO;
+import se.kth.IV1350.seminarThree.DTOPackage.ScannedItemDTO;
 import se.kth.IV1350.seminarThree.integration.*;
 import se.kth.IV1350.seminarThree.model.*;
 
@@ -32,5 +35,20 @@ public class Controller {
     public void saleStart(){
         this.sale = new Sale();
     }
+
+    public SaleInformationDTO registerItem(ScannedItemDTO scannedItem){
+        ItemDTO item = getItem(scannedItem);
+        ItemAndQuantity itemAndQuantity = mergeItemAndQuantity(item, scannedItem);
+        
+    }
+
+    private ItemDTO getItem(ScannedItemDTO scannedItem){
+        return exSysCreator.getExInvSys().getItemInformation(scannedItem);
+    }
+
+    private ItemAndQuantity mergeItemAndQuantity(ItemDTO item, ScannedItemDTO scannedItem){
+        return new ItemAndQuantity(item, scannedItem.getQuantity());
+    }
+
 
 }
