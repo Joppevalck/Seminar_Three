@@ -47,8 +47,7 @@ class ViewTest {
         testStartSale();
 
         //RegisterItem
-        testRegItemID(1);
-        testRegItemID(3);
+        testAddedItems();
         testRunningTotal();
 
         //EndSale
@@ -63,8 +62,13 @@ class ViewTest {
                 "UI did not start correctly.");
     }
 
-    private void testRegItemID(int itemID){
-        String expectedOutput = "Item" + itemID;
+    private void testAddedItems(){
+        expectedRegItemID(1);
+        expectedRegItemID(3);
+    }
+
+    private void expectedRegItemID(int itemID){
+        String expectedOutput = "Item " + itemID;
         assertTrue(printoutBuffer.toString().contains(expectedOutput),
                 "Item " + itemID + " did not get added.");
     }

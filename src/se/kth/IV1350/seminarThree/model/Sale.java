@@ -15,7 +15,8 @@ public class Sale {
     public boolean isSaleActive() {
         return saleActive;
     }
-    public SaleInformation saleNotActive(){
+
+    public SaleInformation getSaleInformation(){
         return saleInfo;
     }
 

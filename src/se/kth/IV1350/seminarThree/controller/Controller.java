@@ -31,16 +31,24 @@ public class Controller {
 
     }
 
+    @Override
+    public String toString() {
+        return sale.isSaleActive() ? "Sale is active" : sale.getSaleInformation().toString();
+    }
+
     public void saleStart(){
         this.sale = new Sale();
     }
 
     public SaleInformation registerItem(ScannedItemDTO scannedItem){
-        if(sale.isSaleActive()){
+        if(sale == null){
+            return null;
+        }
+        else if(sale.isSaleActive()){
             return addNewItem(scannedItem);
         }
         else{
-            return sale.saleNotActive();
+            return sale.getSaleInformation();
         }
     }
 
