@@ -8,10 +8,19 @@ public class Sale {
         initSale();
     }
 
+    public SaleInformation addItemToSale(ItemAndQuantity itemAndQuantity){
+            return saleInfo.addItem(itemAndQuantity);
+    }
+
+    public boolean isSaleActive() {
+        return saleActive;
+    }
+    public SaleInformation saleNotActive(){
+        return saleInfo;
+    }
+
     private void initSale(){
         this.saleInfo = new SaleInformation();
         this.saleActive = true;
     }
-
-    public SaleInformationDTO
 }

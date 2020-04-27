@@ -16,21 +16,25 @@ public class View {
 
     public void runFakeExecution(){
         runFakeSaleStart();
-        System.out.println("A new sale has started.");
-
         runFakeRegisterItem(1, 2);
-        System.out.println("An item with 2 quantities has been added.");
-        System.out.println("The new saleinformation is:");
+        runFakeRegisterItem(3, 3);
 
     }
 
     private void runFakeSaleStart(){
         ctrl.saleStart();
+        System.out.println("A new sale has started.\n");
     }
 
     private void runFakeRegisterItem(int itemID, int quantity){
         ScannedItemDTO scannedItem = new ScannedItemDTO(itemID, quantity);
-
+        String updatedSaleInfo = ctrl.registerItem(scannedItem).toString();
+        if(updatedSaleInfo.contains("*")) {
+            System.out.println("Item " + itemID + " with " + quantity + " quantities has been added. \nThe new " +
+                    "saleinformation is:\n" + updatedSaleInfo + "\n");
+        }else{
+            System.out.println("Sale not active.");
+        }
 
     }
 }
