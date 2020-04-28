@@ -58,10 +58,10 @@ class ControllerTest {
     @Test
     public void testRegisterItemWithoutSaleStart(){
 
-            ScannedItemDTO scannedItem = new ScannedItemDTO(1, 1);
-            SaleInformation saleInfo = instanceToTest.registerItem(scannedItem);
-            assertTrue(saleInfo == null,
-                    "RegisterItem went through without a saleStart.");
+        ScannedItemDTO scannedItem = new ScannedItemDTO(1, 1);
+        SaleInformation saleInfo = instanceToTest.registerItem(scannedItem);
+        assertTrue(saleInfo == null,
+                "RegisterItem went through without a saleStart.");
     }
 
     @Test

@@ -9,7 +9,9 @@ public class Sale {
     }
 
     public SaleInformation addItemToSale(ItemAndQuantity itemAndQuantity){
+        if(saleActive)
             return saleInfo.addItem(itemAndQuantity);
+        return saleInfo;
     }
 
     public boolean isSaleActive() {

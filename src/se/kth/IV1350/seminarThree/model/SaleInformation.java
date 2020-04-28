@@ -43,7 +43,6 @@ public class SaleInformation {
         addItemAndQuantity(itemAndQuantity);
         this.lastItemAdded = itemAndQuantity;
         updatePrice();
-
         return this;
     }
 
