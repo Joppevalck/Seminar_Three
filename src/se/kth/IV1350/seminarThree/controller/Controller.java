@@ -52,6 +52,10 @@ public class Controller {
         }
     }
 
+    public int endSale(){
+        return sale.endSale();
+    }
+
     private ItemDTO getItem(ScannedItemDTO scannedItem){
         return exSysCreator.getExInvSys().getItemInformation(scannedItem);
     }

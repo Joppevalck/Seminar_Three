@@ -46,6 +46,14 @@ public class SaleInformation {
         return this;
     }
 
+    public void setLastItemAddedToNull(){
+        lastItemAdded = null;
+    }
+
+    public int getRunningTotal(){
+        return runningTotal;
+    }
+
     private void setTimeOfSale(){
         this.saleTime = LocalTime.now();
     }

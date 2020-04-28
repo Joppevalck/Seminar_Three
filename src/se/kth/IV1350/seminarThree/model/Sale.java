@@ -22,6 +22,12 @@ public class Sale {
         return saleInfo;
     }
 
+    public int endSale(){
+        saleActive = false;
+        saleInfo.setLastItemAddedToNull();
+        return saleInfo.getRunningTotal();
+    }
+
     private void initSale(){
         this.saleInfo = new SaleInformation();
         this.saleActive = true;

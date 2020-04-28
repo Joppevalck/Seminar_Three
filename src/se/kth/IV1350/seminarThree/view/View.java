@@ -18,7 +18,8 @@ public class View {
         runFakeSaleStart();
         runFakeRegisterItem(1, 2);
         runFakeRegisterItem(3, 3);
-
+        runFakeEndSale();
+        runFakeRegisterItem(2, 4);
     }
 
     private void runFakeSaleStart(){
@@ -36,5 +37,10 @@ public class View {
             System.out.println("Sale not active.");
         }
 
+    }
+
+    private void runFakeEndSale(){
+        int total = ctrl.endSale();
+        System.out.println("TotalPrice: " + total + "kr \n");
     }
 }
