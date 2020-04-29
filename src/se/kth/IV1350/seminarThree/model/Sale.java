@@ -28,6 +28,10 @@ public class Sale {
         return saleInfo.getRunningTotal();
     }
 
+    public CompletedSale payment(int amountPaid){
+        return saleInfo.completeSale(amountPaid);
+    }
+
     private void initSale(){
         this.saleInfo = new SaleInformation();
         this.saleActive = true;

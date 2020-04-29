@@ -1,21 +1,17 @@
 package se.kth.IV1350.seminarThree.model;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 /**
  * SaleInformation contains all Information of a sale.
  */
 public class SaleInformation {
-    private LocalTime saleTime;
+    private LocalDateTime saleDateAndTime;
     private StoreLocation storeLocation;
     private HashMap<String, ItemAndQuantity> itemInventory;
     private ItemAndQuantity lastItemAdded;
-    private double VAT;
     private int runningTotal;
-    private int amountPaid;
-    private int change;
-
 
     /**
      * Creates an instance of SaleInformation. Initializes the sale information.
@@ -36,7 +32,8 @@ public class SaleInformation {
     public String toString() {
         return lastItemAdded == null ? "Total price: " + runningTotal + "kr \nNo item registered": "Total price: " + runningTotal +
                 "kr\n" + lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getItemDescription() + "\t" +
-                lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getPrice() + "kr";
+                lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getPrice() + "kr \tVAT: "+
+                lastItemAdded.getItem().getVAT()*100 + "%";
     }
 
     public SaleInformation addItem(ItemAndQuantity itemAndQuantity){
@@ -54,8 +51,13 @@ public class SaleInformation {
         return runningTotal;
     }
 
+    public CompletedSale completeSale(int amountPaid){
+        return  new CompletedSale(this.saleDateAndTime, this.storeLocation, this.itemInventory, this.runningTotal,
+                amountPaid);
+    }
+
     private void setTimeOfSale(){
-        this.saleTime = LocalTime.now();
+        this.saleDateAndTime = LocalDateTime.now();
     }
 
     private void setStoreLocationOfSale(String nameOfStore, String addressOfStore){
@@ -67,7 +69,7 @@ public class SaleInformation {
     }
 
     private void initMoneyVariables(){
-        this.runningTotal = this.amountPaid = this.change = (int)(this.VAT = 0);
+        this.runningTotal = 0;
     }
 
     private void addItemAndQuantity(ItemAndQuantity itemAndQuantity){

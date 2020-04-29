@@ -56,6 +56,13 @@ public class Controller {
         return sale.endSale();
     }
 
+    public double payment(int amountPaid){
+        CompletedSale completedSale = sale.payment(amountPaid);
+        Receipt receipt = new Receipt(completedSale);
+        exSysCreator.getExAccSys().
+
+        return completedSale.getChange();
+    }
     private ItemDTO getItem(ScannedItemDTO scannedItem){
         return exSysCreator.getExInvSys().getItemInformation(scannedItem);
     }
