@@ -12,6 +12,7 @@ public class SaleInformation {
     private HashMap<String, ItemAndQuantity> itemInventory;
     private ItemAndQuantity lastItemAdded;
     private int runningTotal;
+    private double VAT;
 
     /**
      * Creates an instance of SaleInformation. Initializes the sale information.
@@ -36,24 +37,27 @@ public class SaleInformation {
                 lastItemAdded.getItem().getVAT()*100 + "%";
     }
 
-    public SaleInformation addItem(ItemAndQuantity itemAndQuantity){
+    SaleInformation addItem(ItemAndQuantity itemAndQuantity){
         addItemAndQuantity(itemAndQuantity);
         this.lastItemAdded = itemAndQuantity;
         updatePrice();
         return this;
     }
 
-    public void setLastItemAddedToNull(){
+    void setLastItemAddedToNull(){
         lastItemAdded = null;
     }
 
-    public int getRunningTotal(){
+    int getRunningTotal(){
         return runningTotal;
     }
 
-    public CompletedSale completeSale(int amountPaid){
-        return  new CompletedSale(this.saleDateAndTime, this.storeLocation, this.itemInventory, this.runningTotal,
-                amountPaid);
+    double getAmountToPay(){
+        return runningTotal+VAT;
+    }
+
+    CompletedSale completeSale(int amountPaid){
+        return  new CompletedSale(this, amountPaid);
     }
 
     private void setTimeOfSale(){
@@ -90,5 +94,39 @@ public class SaleInformation {
             itemAndQuantity = this.itemInventory.get(itemDescription);
             this.runningTotal += itemAndQuantity.getQuantity()*itemAndQuantity.getItem().getPrice();
         }
+        calculateVAT();
+    }
+    private void calculateVAT(){
+        this.VAT = 0;
+        for (String itemDesc : itemInventory.keySet()){
+            this.VAT += getVATfromItem(itemDesc);
+        }
+    }
+
+    private double getVATfromItem(String itemDesc){
+        double VATRate = itemInventory.get(itemDesc).getItem().getVAT();
+        double itemPrice = itemInventory.get(itemDesc).getItem().getPrice();
+        int quantity = itemInventory.get(itemDesc).getQuantity();
+        return itemPrice*VATRate*quantity;
+    }
+
+    LocalDateTime getSaleDateAndTime() {
+        return saleDateAndTime;
+    }
+
+    StoreLocation getStoreLocation() {
+        return storeLocation;
+    }
+
+    ItemAndQuantity getLastItemAdded() {
+        return lastItemAdded;
+    }
+
+    double getVAT() {
+        return VAT;
+    }
+
+    HashMap<String, ItemAndQuantity> getItemInventory() {
+        return itemInventory;
     }
 }

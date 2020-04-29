@@ -3,6 +3,9 @@ package se.kth.IV1350.seminarThree.model;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+/**
+ * This class gathers all information of the sale that the customer needs. It confirms the sale.
+ */
 public class Receipt {
     private LocalDateTime saleDateAndTime;
     private StoreLocation storeLocation;
@@ -12,11 +15,22 @@ public class Receipt {
     private double change;
     private double VAT;
 
+    /**
+     * Creates an instance of the class Receipt. It stores all information from the completed sale. It creates a array
+     * of all the items and prices.
+     *
+     * @param completedSale the sale that the receipt is going to get the information from.
+     */
     public Receipt(CompletedSale completedSale) {
         storeCompletedSaleInformation(completedSale);
         getAllItemInformation(completedSale);
     }
 
+    /**
+     * Will print out what is stored in the receipt.
+     *
+     * @return a string of what the receipt contains.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

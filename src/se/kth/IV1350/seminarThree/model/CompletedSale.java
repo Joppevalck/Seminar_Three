@@ -3,6 +3,9 @@ package se.kth.IV1350.seminarThree.model;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+/**
+ * This contains all information from a completed sale.
+ */
 public class CompletedSale {
 
     private LocalDateTime saleDateAndTime;
@@ -13,57 +16,55 @@ public class CompletedSale {
     private double change;
     private double VAT;
 
-    public CompletedSale(LocalDateTime saleDateAndTime, StoreLocation storeLocation,
-                         HashMap<String, ItemAndQuantity> itemInventory, int runningTotal, int amountPaid) {
-        this.saleDateAndTime = saleDateAndTime;
-        this.storeLocation = storeLocation;
-        this.itemInventory = itemInventory;
-        this.runningTotal = runningTotal;
+
+    /**
+     * Creates an instance of CompletedSale, which resembles a completed version of the sale.
+     *
+     * @param saleInfo is the completed sale that CompletedSale will resemble.
+     * @param amountPaid is what the customer paid.
+     */
+    CompletedSale(SaleInformation saleInfo, int amountPaid) {
+        this.saleDateAndTime = saleInfo.getSaleDateAndTime();
+        this.storeLocation = saleInfo.getStoreLocation();
+        this.itemInventory = saleInfo.getItemInventory();
+        this.runningTotal = saleInfo.getRunningTotal();
         this.amountPaid = amountPaid;
-        this.change = amountPaid-runningTotal;
-        calculateVAT();
+        this.change = (int)(this.amountPaid-(this.runningTotal+this.VAT) + 0.5);
+        this.VAT = saleInfo.getVAT();
 
     }
 
-    private void calculateVAT(){
-        this.VAT = 0;
-        for (String itemDesc : itemInventory.keySet()){
-            this.VAT += getVATfromItem(itemDesc);
-        }
-    }
 
-    private double getVATfromItem(String itemDesc){
-         double VATRate = itemInventory.get(itemDesc).getItem().getVAT();
-         double itemPrice = itemInventory.get(itemDesc).getItem().getPrice();
-         int quantity = itemInventory.get(itemDesc).getQuantity();
-         return itemPrice*VATRate*quantity;
-    }
 
-    public LocalDateTime getSaleDateAndTime() {
+    LocalDateTime getSaleDateAndTime() {
         return saleDateAndTime;
     }
 
-    public StoreLocation getStoreLocation() {
+    StoreLocation getStoreLocation() {
         return storeLocation;
     }
 
-    public HashMap<String, ItemAndQuantity> getItemInventory() {
+    HashMap<String, ItemAndQuantity> getItemInventory() {
         return itemInventory;
     }
 
-    public double getRunningTotal() {
+    double getRunningTotal() {
         return runningTotal;
     }
 
-    public int getAmountPaid() {
+    int getAmountPaid() {
         return amountPaid;
     }
 
+    /**
+     * Returns the calculated change for the customer.
+     * @return the change.
+     */
     public double getChange() {
         return change;
     }
 
-    public double getVAT() {
+    double getVAT() {
         return VAT;
     }
 }

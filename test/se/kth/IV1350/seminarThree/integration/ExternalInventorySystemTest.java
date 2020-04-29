@@ -6,8 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.kth.IV1350.seminarThree.DTOPackage.ItemDTO;
 import se.kth.IV1350.seminarThree.DTOPackage.ScannedItemDTO;
-import se.kth.IV1350.seminarThree.controller.Controller;
-import se.kth.IV1350.seminarThree.model.SaleInformation;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
