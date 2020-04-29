@@ -2,7 +2,6 @@ package se.kth.IV1350.seminarThree.model;
 
 import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * SaleInformation contains all Information of a sale.
@@ -10,7 +9,7 @@ import java.util.Map;
 public class SaleInformation {
     private LocalTime saleTime;
     private StoreLocation storeLocation;
-    private Map itemInventory;
+    private HashMap<String, ItemAndQuantity> itemInventory;
     private ItemAndQuantity lastItemAdded;
     private double VAT;
     private int runningTotal;
@@ -28,19 +27,35 @@ public class SaleInformation {
         initMoneyVariables();
     }
 
+    /**
+     * Prints the running total and last item's that was registered description and price.
+     *
+     * @return String formated to print the running total and the item's description and price.
+     */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < itemInventory.size(); i++){
+        return lastItemAdded == null ? "Total price: " + runningTotal + "kr \nNo item registered": "Total price: " + runningTotal +
+                "kr\n" + lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getItemDescription() + "\t" +
+                lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getPrice() + "kr";
+    }
 
-        }
-        itemInventory.
+    public SaleInformation addItem(ItemAndQuantity itemAndQuantity){
+        addItemAndQuantity(itemAndQuantity);
+        this.lastItemAdded = itemAndQuantity;
+        updatePrice();
+        return this;
+    }
 
-        return String.format();
+    public void setLastItemAddedToNull(){
+        lastItemAdded = null;
+    }
+
+    public int getRunningTotal(){
+        return runningTotal;
     }
 
     private void setTimeOfSale(){
-        saleTime = LocalTime.now();
+        this.saleTime = LocalTime.now();
     }
 
     private void setStoreLocationOfSale(String nameOfStore, String addressOfStore){
@@ -55,4 +70,23 @@ public class SaleInformation {
         this.runningTotal = this.amountPaid = this.change = (int)(this.VAT = 0);
     }
 
+    private void addItemAndQuantity(ItemAndQuantity itemAndQuantity){
+        String itemDescription = itemAndQuantity.getItem().getItemDescription();
+
+        if(this.itemInventory.containsKey(itemDescription)){
+            ItemAndQuantity prevAddedItem = this.itemInventory.get(itemDescription);
+            prevAddedItem.addQuantity(itemAndQuantity.getQuantity());
+        }
+        else{
+            this.itemInventory.put(itemDescription, itemAndQuantity);
+        }
+    }
+    private void updatePrice(){
+        ItemAndQuantity itemAndQuantity;
+        this.runningTotal = 0;
+        for(String itemDescription : this.itemInventory.keySet() ){
+            itemAndQuantity = this.itemInventory.get(itemDescription);
+            this.runningTotal += itemAndQuantity.getQuantity()*itemAndQuantity.getItem().getPrice();
+        }
+    }
 }

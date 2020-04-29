@@ -11,6 +11,13 @@ public class ExternalInventorySystem {
             new ItemDTO("Bread", 5, 29, 0.12)};
 
     public ItemDTO getItemInformation(ScannedItemDTO scannedItem) {
-        return this.items[scannedItem.getItemID() - 1];
+        if(checkItemID(scannedItem))
+            return this.items[scannedItem.getItemID() - 1];
+        else
+            throw new ArrayIndexOutOfBoundsException("Item ID ("+scannedItem.getItemID()+") is invalid. ");
+    }
+
+    private boolean checkItemID(ScannedItemDTO scannedItem){
+        return scannedItem.getItemID() > 0 && scannedItem.getItemID() < (items.length+1);
     }
 }

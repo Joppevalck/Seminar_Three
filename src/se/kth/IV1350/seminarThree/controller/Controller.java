@@ -1,7 +1,6 @@
 package se.kth.IV1350.seminarThree.controller;
 
 import se.kth.IV1350.seminarThree.DTOPackage.ItemDTO;
-import se.kth.IV1350.seminarThree.DTOPackage.SaleInformationDTO;
 import se.kth.IV1350.seminarThree.DTOPackage.ScannedItemDTO;
 import se.kth.IV1350.seminarThree.integration.*;
 import se.kth.IV1350.seminarThree.model.*;
@@ -32,14 +31,29 @@ public class Controller {
 
     }
 
+    @Override
+    public String toString() {
+        return sale.isSaleActive() ? "Sale is active" : "Sale is not active";
+    }
+
     public void saleStart(){
         this.sale = new Sale();
     }
 
-    public SaleInformationDTO registerItem(ScannedItemDTO scannedItem){
-        ItemDTO item = getItem(scannedItem);
-        ItemAndQuantity itemAndQuantity = mergeItemAndQuantity(item, scannedItem);
-        
+    public SaleInformation registerItem(ScannedItemDTO scannedItem){
+        if(sale == null){
+            return null;
+        }
+        else if(sale.isSaleActive()){
+            return addNewItem(scannedItem);
+        }
+        else{
+            return sale.getSaleInformation();
+        }
+    }
+
+    public int endSale(){
+        return sale.endSale();
     }
 
     private ItemDTO getItem(ScannedItemDTO scannedItem){
@@ -48,6 +62,12 @@ public class Controller {
 
     private ItemAndQuantity mergeItemAndQuantity(ItemDTO item, ScannedItemDTO scannedItem){
         return new ItemAndQuantity(item, scannedItem.getQuantity());
+    }
+
+    private SaleInformation addNewItem(ScannedItemDTO scannedItem){
+        ItemDTO item = getItem(scannedItem);
+        ItemAndQuantity itemAndQuantity = mergeItemAndQuantity(item, scannedItem);
+        return sale.addItemToSale(itemAndQuantity);
     }
 
 
