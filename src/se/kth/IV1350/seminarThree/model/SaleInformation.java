@@ -1,21 +1,18 @@
 package se.kth.IV1350.seminarThree.model;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 /**
  * SaleInformation contains all Information of a sale.
  */
 public class SaleInformation {
-    private LocalTime saleTime;
+    private LocalDateTime saleDateAndTime;
     private StoreLocation storeLocation;
     private HashMap<String, ItemAndQuantity> itemInventory;
     private ItemAndQuantity lastItemAdded;
-    private double VAT;
     private int runningTotal;
-    private int amountPaid;
-    private int change;
-
+    private double VAT;
 
     /**
      * Creates an instance of SaleInformation. Initializes the sale information.
@@ -36,26 +33,35 @@ public class SaleInformation {
     public String toString() {
         return lastItemAdded == null ? "Total price: " + runningTotal + "kr \nNo item registered": "Total price: " + runningTotal +
                 "kr\n" + lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getItemDescription() + "\t" +
-                lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getPrice() + "kr";
+                lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getPrice() + "kr \tVAT: "+
+                lastItemAdded.getItem().getVAT()*100 + "%";
     }
 
-    public SaleInformation addItem(ItemAndQuantity itemAndQuantity){
+    SaleInformation addItem(ItemAndQuantity itemAndQuantity){
         addItemAndQuantity(itemAndQuantity);
         this.lastItemAdded = itemAndQuantity;
         updatePrice();
         return this;
     }
 
-    public void setLastItemAddedToNull(){
+    void setLastItemAddedToNull(){
         lastItemAdded = null;
     }
 
-    public int getRunningTotal(){
+    int getRunningTotal(){
         return runningTotal;
     }
 
+    double getAmountToPay(){
+        return runningTotal+VAT;
+    }
+
+    CompletedSale completeSale(int amountPaid){
+        return  new CompletedSale(this, amountPaid);
+    }
+
     private void setTimeOfSale(){
-        this.saleTime = LocalTime.now();
+        this.saleDateAndTime = LocalDateTime.now();
     }
 
     private void setStoreLocationOfSale(String nameOfStore, String addressOfStore){
@@ -67,7 +73,7 @@ public class SaleInformation {
     }
 
     private void initMoneyVariables(){
-        this.runningTotal = this.amountPaid = this.change = (int)(this.VAT = 0);
+        this.runningTotal = 0;
     }
 
     private void addItemAndQuantity(ItemAndQuantity itemAndQuantity){
@@ -88,5 +94,39 @@ public class SaleInformation {
             itemAndQuantity = this.itemInventory.get(itemDescription);
             this.runningTotal += itemAndQuantity.getQuantity()*itemAndQuantity.getItem().getPrice();
         }
+        calculateVAT();
+    }
+    private void calculateVAT(){
+        this.VAT = 0;
+        for (String itemDesc : itemInventory.keySet()){
+            this.VAT += getVATfromItem(itemDesc);
+        }
+    }
+
+    private double getVATfromItem(String itemDesc){
+        double VATRate = itemInventory.get(itemDesc).getItem().getVAT();
+        double itemPrice = itemInventory.get(itemDesc).getItem().getPrice();
+        int quantity = itemInventory.get(itemDesc).getQuantity();
+        return itemPrice*VATRate*quantity;
+    }
+
+    LocalDateTime getSaleDateAndTime() {
+        return saleDateAndTime;
+    }
+
+    StoreLocation getStoreLocation() {
+        return storeLocation;
+    }
+
+    ItemAndQuantity getLastItemAdded() {
+        return lastItemAdded;
+    }
+
+    double getVAT() {
+        return VAT;
+    }
+
+    HashMap<String, ItemAndQuantity> getItemInventory() {
+        return itemInventory;
     }
 }

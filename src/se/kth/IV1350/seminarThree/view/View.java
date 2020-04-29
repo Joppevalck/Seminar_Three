@@ -10,16 +10,25 @@ import se.kth.IV1350.seminarThree.controller.Controller;
 public class View {
     private Controller ctrl;
 
+    /**
+     * Creates an instance of View, keeps track of an instance of the class Controller.
+     *
+     * @param ctrl is the controller that view is going to call.
+     */
     public View(Controller ctrl){
         this.ctrl = ctrl;
     }
 
+    /**
+     * Simulates a sale, calls all public methods from the Controller class.
+     */
     public void runFakeExecution(){
         runFakeSaleStart();
         runFakeRegisterItem(1, 2);
         runFakeRegisterItem(3, 3);
         runFakeEndSale();
-        runFakeRegisterItem(2, 4);
+        runFakeRegisterItem(2, 1);
+        runFakePayment(200);
     }
 
     private void runFakeSaleStart(){
@@ -34,13 +43,18 @@ public class View {
             System.out.println("Item " + itemID + " with " + quantity + " quantities has been added. \nThe new " +
                     "saleinformation is:\n" + updatedSaleInfo + "\n");
         }else{
-            System.out.println("Sale not active.");
+            System.out.println("Sale not active.\n");
         }
 
     }
 
     private void runFakeEndSale(){
-        int total = ctrl.endSale();
+        double total = ctrl.endSale();
         System.out.println("Amount to pay: " + total + "kr \n");
+    }
+
+    private void runFakePayment(int amountPaid){
+        double change = ctrl.payment(amountPaid);
+        System.out.println("\nChange: " + change);
     }
 }

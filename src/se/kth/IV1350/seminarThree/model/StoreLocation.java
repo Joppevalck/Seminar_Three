@@ -9,6 +9,11 @@ public class StoreLocation {
         this.nameOfStore = nameOfStore;
     }
 
+    @Override
+    public String toString() {
+        return nameOfStore + "\t" + addressOfStore;
+    }
+
     String getAddressOfStore() {
         return addressOfStore;
     }

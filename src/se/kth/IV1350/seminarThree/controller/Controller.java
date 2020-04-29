@@ -36,10 +36,18 @@ public class Controller {
         return sale.isSaleActive() ? "Sale is active" : "Sale is not active";
     }
 
+    /**
+     * Calls for a new sale to start. Creates an instance of the sale class.
+     */
     public void saleStart(){
         this.sale = new Sale();
     }
 
+    /**
+     * Sends a request to add a item with the item identifier and quantity of the item.
+     * @param scannedItem contains the item identifier and quantity.
+     * @return the updates sale information.
+     */
     public SaleInformation registerItem(ScannedItemDTO scannedItem){
         if(sale == null){
             return null;
@@ -52,8 +60,24 @@ public class Controller {
         }
     }
 
-    public int endSale(){
+    /**
+     * Calls the sale to end the sale.
+     * @return what the customer has to pay for the item(s).
+     */
+    public double endSale(){
         return sale.endSale();
+    }
+
+    /**
+     * Wraps up the sale and updates the sale information of how much the customer paid.
+     * @param amountPaid what the customer paid.
+     * @return the change for the customer.
+     */
+    public double payment(int amountPaid){
+        CompletedSale completedSale = sale.payment(amountPaid);
+        createAndPrintReceipt(completedSale);
+        updateExternalAndInternalSystems(completedSale);
+        return completedSale.getChange();
     }
 
     private ItemDTO getItem(ScannedItemDTO scannedItem){
@@ -69,6 +93,19 @@ public class Controller {
         ItemAndQuantity itemAndQuantity = mergeItemAndQuantity(item, scannedItem);
         return sale.addItemToSale(itemAndQuantity);
     }
+
+    private void updateExternalAndInternalSystems(CompletedSale completedSale){
+        exSysCreator.getExAccSys().updateAccounting(completedSale);
+        exSysCreator.getExInvSys().updateInventory(completedSale);
+        register.updateRegisterCash(completedSale);
+        saleLog.logCompletedSale(completedSale);
+    }
+
+    private void createAndPrintReceipt(CompletedSale completedSale) {
+        Receipt receipt = new Receipt(completedSale);
+        exSysCreator.getPrinter().printReceipt(receipt);
+    }
+
 
 
 }
