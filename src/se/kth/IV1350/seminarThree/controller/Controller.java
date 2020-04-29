@@ -33,7 +33,7 @@ public class Controller {
 
     @Override
     public String toString() {
-        return sale.isSaleActive() ? "Sale is active" : sale.getSaleInformation().toString();
+        return sale.isSaleActive() ? "Sale is active" : "Sale is not active";
     }
 
     public void saleStart(){

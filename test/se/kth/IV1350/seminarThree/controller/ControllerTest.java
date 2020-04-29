@@ -60,24 +60,39 @@ class ControllerTest {
 
         ScannedItemDTO scannedItem = new ScannedItemDTO(1, 1);
         SaleInformation saleInfo = instanceToTest.registerItem(scannedItem);
-        assertTrue(saleInfo == null,
-                "RegisterItem went through without a saleStart.");
+        assertNull(saleInfo, "RegisterItem went through without a saleStart.");
     }
 
     @Test
     public void testInvalidItemID(){
         instanceToTest.saleStart();
-        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            specificScannedItem(0,1);
-            specificScannedItem(6,1);
-            specificScannedItem(Integer.MAX_VALUE, 1);
-            specificScannedItem(Integer.MIN_VALUE, 1);
-        });
+        specificScannedItem(0,1);
+        specificScannedItem(6,1);
+        specificScannedItem(Integer.MAX_VALUE, 1);
+        specificScannedItem(Integer.MIN_VALUE, 1);
     }
 
-    private SaleInformation specificScannedItem(int itemID, int quantity){
-        ScannedItemDTO scannedItem = new ScannedItemDTO(0, 1);
-        return instanceToTest.registerItem(scannedItem);
+    @Test
+    public void testEndSale(){
+        instanceToTest.saleStart();
+        instanceToTest.endSale();
+
+        String expectedOutput = "Sale is not active";
+        assertTrue(instanceToTest.toString().contains(expectedOutput),
+                "Sale did not end correctly");
+    }
+
+    @Test
+    public void testEndSaleWithoutStartingASale(){
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            instanceToTest.endSale();;
+        });
+    }
+    private void specificScannedItem(int itemID, int quantity){
+        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            ScannedItemDTO scannedItem = new ScannedItemDTO(itemID, quantity);
+            instanceToTest.registerItem(scannedItem);
+        });
     }
 
 }

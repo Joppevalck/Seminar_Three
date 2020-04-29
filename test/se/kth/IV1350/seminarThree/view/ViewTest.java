@@ -39,21 +39,28 @@ class ViewTest {
     }
 
     @Test
-    public void testRunFakeExecution(){
+    public void testRunFakeExecutionStartSale(){
         instanceToTest.runFakeExecution();
         String printout = printoutBuffer.toString();
 
-        //StartSale
         testStartSale();
+    }
 
-        //RegisterItem
+    @Test
+    public void testRunFakeExecutionRegisterItem(){
+        instanceToTest.runFakeExecution();
+        String printout = printoutBuffer.toString();
+
         testAddedItems();
         testRunningTotal();
+    }
 
-        //EndSale
+    @Test
+    public void testRunFakeExecutionEndSale(){
+        instanceToTest.runFakeExecution();
+        String printout = printoutBuffer.toString();
 
-        //Payment
-
+        testEndSale();
     }
 
     private void testStartSale(){
@@ -80,9 +87,15 @@ class ViewTest {
     }
 
     private void expectedRunningPrice(int price){
-        String expectedOutput = "Total price: " + price + "kr";
+        String expectedOutput = "Total price: " + price + "kr\n";
         assertTrue(printoutBuffer.toString().contains(expectedOutput),
-                "Running Total for price "+ price +"kr not correct.");
+                "Running Total for price " + price + "kr not correct.");
+    }
+
+    private void testEndSale(){
+        String expectedOutput = "Amount to pay: ";
+        assertTrue(printoutBuffer.toString().contains(expectedOutput),
+                "EndSale did not execute properly.");
     }
 
 }

@@ -41,6 +41,6 @@ public class View {
 
     private void runFakeEndSale(){
         int total = ctrl.endSale();
-        System.out.println("TotalPrice: " + total + "kr \n");
+        System.out.println("Amount to pay: " + total + "kr \n");
     }
 }

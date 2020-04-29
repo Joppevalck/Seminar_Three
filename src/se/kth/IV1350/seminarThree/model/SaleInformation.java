@@ -34,9 +34,9 @@ public class SaleInformation {
      */
     @Override
     public String toString() {
-        return lastItemAdded == null ? "No Items Added" : "Total price: " + runningTotal + "kr\n" + lastItemAdded.getQuantity() + "*" +
-                lastItemAdded.getItem().getItemDescription() + "\t" + lastItemAdded.getQuantity() + "*" +
-                lastItemAdded.getItem().getPrice() + "kr";
+        return lastItemAdded == null ? "Total price: " + runningTotal + "kr \nNo item registered": "Total price: " + runningTotal +
+                "kr\n" + lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getItemDescription() + "\t" +
+                lastItemAdded.getQuantity() + "*" + lastItemAdded.getItem().getPrice() + "kr";
     }
 
     public SaleInformation addItem(ItemAndQuantity itemAndQuantity){

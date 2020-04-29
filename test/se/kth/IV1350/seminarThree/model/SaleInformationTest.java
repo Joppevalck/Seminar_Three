@@ -41,7 +41,7 @@ class SaleInformationTest {
     @Test
     public void testToString() {
 
-        String expectedOutput = "No Items Added";
+        String expectedOutput = "No item registered";
         assertTrue(instanceToTest.toString().contains(expectedOutput),
                 "lastItemAdded was not null.");
         ItemAndQuantity item = createItemAndQuantity(1, 1);

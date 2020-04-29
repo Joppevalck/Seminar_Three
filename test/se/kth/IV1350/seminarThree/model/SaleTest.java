@@ -49,6 +49,17 @@ class SaleTest {
         }
     }
 
+    @Test
+    public void testEndSale(){
+        ItemAndQuantity itemAndQuantity = createItemAndQuantity(1,1);
+        instanceToTest.addItemToSale(itemAndQuantity).toString();
+        instanceToTest.endSale();
+        String printout = instanceToTest.getSaleInformation().toString();
+        String expectedOutput = "No item registered";
+        assertTrue(printout.contains(expectedOutput),
+                "EndSale did not null lastItemAdded." );
+    }
+
     private ItemAndQuantity createItemAndQuantity(int itemID, int quantity){
         ScannedItemDTO scannedItem = new ScannedItemDTO(itemID, quantity);
         return new ItemAndQuantity(exInvSys.getItemInformation(scannedItem), quantity);
